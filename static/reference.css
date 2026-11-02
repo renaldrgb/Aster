@@ -1,0 +1,91 @@
+/* Match the selected reference compositions, with real workspace content. */
+html[data-layout] body{font-family:'Segoe UI',Arial,sans-serif;font-size:14px}html[data-layout] button,html[data-layout] input,html[data-layout] select,html[data-layout] textarea{font-family:inherit}html[data-layout] header{height:92px;padding:18px 30px;gap:22px}html[data-layout] header nav button{padding:13px 15px;font-size:13px;border-radius:8px}html[data-layout] .brand{font-family:Georgia,serif;font-size:37px}html[data-layout] .brand img{filter:none}.workspace-chat-heading{padding:20px 18px 10px}.workspace-chat-heading h3{font-size:12px;color:var(--muted)}.workspace-chat-heading button{padding:13px 16px;border-radius:8px;font-size:14px}.workspace-history span{font-size:13px}.workspace-history small{font-size:11px}.workspace-history button{padding:14px 12px!important;margin:4px 0}.chat-topbar{padding:24px 28px;min-height:96px;flex-wrap:nowrap}.chat-topbar>div{min-width:0;flex:1}.chat-topbar h2{font-size:27px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.chat-topbar small{font-size:12px}.chat-topbar>.link{font-size:11px;max-width:110px;line-height:1.5}.chat-messages{padding:30px 28px!important}.chat-panel .message{position:relative;margin:0 0 28px!important;padding:0 0 0 44px!important}.chat-panel .message:before{content:'✦';position:absolute;left:0;top:0;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--purple);color:var(--surface);font-size:24px}.chat-panel .message.user{margin-left:0!important;padding:18px 20px!important;background:var(--tint)!important;border-radius:10px}.chat-panel .message.user:before{display:none}.chat-panel .message small{font-size:11px;text-transform:none;letter-spacing:0;margin:0 0 9px}.chat-panel .message.user small{display:none}.chat-panel .message.assistant .prose{border:1px solid var(--line);border-radius:12px;padding:22px;white-space:pre-wrap;font-size:16px;line-height:1.65}.chat-panel .message.user .prose{font-family:'Segoe UI',Arial,sans-serif!important;font-size:14px;line-height:1.55}.chat-panel .compose{border-radius:12px!important;padding:12px 16px!important;margin:0 24px 22px!important;box-shadow:0 2px 8px #10251c05}.chat-panel .compose textarea{font-size:14px!important;min-height:42px}.chat-panel .compose button{padding:12px 21px;border-radius:8px}.chat-panel .compose small{font-size:10px}.study-resources{padding:18px!important;gap:18px!important}.study-reader,.lesson-sources,.study-task-card{border-radius:12px!important;background:var(--surface);border:1px solid var(--line)}.reader-controls{padding:16px}.reader-controls h3{font-size:15px}.reader-controls label{font-size:10px}.reader-controls select{font-size:11px;padding:8px}.reading-page{padding:0!important}.lesson-cover{margin:16px 16px 0;padding:25px 22px;position:relative;overflow:hidden;min-height:165px;background:#183c2d;color:#fffdf5}.lesson-cover h2{font-family:Georgia,serif;font-size:24px;line-height:1.2;margin:10px 0 20px}.lesson-cover small,.lesson-cover span{font-size:9px;color:#cfdbd1;letter-spacing:1px}.lesson-copy{padding:20px}.lesson-copy .prose{font-family:Georgia,serif;font-size:14px;line-height:1.7;max-height:150px;overflow:hidden}.lesson-copy .eyebrow{font-size:10px;margin-bottom:12px}.lesson-sources{padding:18px}.lesson-sources h3{font-size:15px;margin:0}.lesson-sources button{display:flex;align-items:start;gap:12px;width:100%;border:0;background:transparent!important;padding:14px 0;text-align:left}.lesson-sources button>b{border-radius:50%;background:var(--tint);padding:5px 8px;font-size:11px}.lesson-sources strong{font-size:12px;line-height:1.5;font-weight:500;display:block}.lesson-sources small{display:block;font-size:10px;margin-top:5px}
+html[data-layout="study-desk"] #workspaceFrame{margin:0;padding:0;border:0;grid-template-columns:280px minmax(0,1fr) 320px;border-radius:0}html[data-layout="study-desk"] body[data-workspace-page="study"] #workspaceFrame{grid-template-columns:280px minmax(0,1fr)}html[data-layout="study-desk"] #workspaceNav{height:calc(100dvh - 92px);top:0;background:var(--paper)}html[data-layout="study-desk"] .study-shell{height:calc(100dvh - 92px);grid-template-columns:minmax(350px,1fr) 330px}html[data-layout="study-desk"] .chat-topbar h2{font-family:Georgia,serif}html[data-layout="study-desk"] .study-resources>.study-task-card{display:none}html[data-layout="study-desk"] .chat-panel .message.assistant .prose{font-family:Georgia,serif}
+html[data-layout="floating"] #workspaceFrame{margin:26px auto;padding:0 30px;gap:22px;grid-template-columns:245px minmax(0,1fr) 330px}html[data-layout="floating"] body[data-workspace-page="study"] #workspaceFrame{grid-template-columns:245px minmax(0,1fr)}html[data-layout="floating"] #workspaceNav{height:calc(100dvh - 52px);border-radius:22px}html[data-layout="floating"] .workspace-links button{padding:12px!important;font-size:13px}html[data-layout="floating"] .study-shell{grid-template-columns:minmax(320px,1fr) 330px;height:calc(100dvh - 52px);gap:22px}html[data-layout="floating"] .chat-panel{border-radius:20px;box-shadow:0 8px 24px #24204b09}html[data-layout="floating"] .chat-topbar h2{font-family:'Segoe UI',Arial,sans-serif;font-size:23px!important}html[data-layout="floating"] .study-resources{padding:0!important;background:transparent}html[data-layout="floating"] .study-resources>.lesson-sources{order:-1}html[data-layout="floating"] .study-resources>.study-reader{max-height:310px;order:0}html[data-layout="floating"] .lesson-cover{display:none}html[data-layout="floating"] .lesson-copy .prose{max-height:90px}html[data-layout="floating"] .study-task-card{order:1}html[data-layout="floating"] .lesson-sources,html[data-layout="floating"] .study-reader,html[data-layout="floating"] .study-task-card{border-radius:20px!important;box-shadow:0 10px 22px #34256908}
+html[data-layout="reading-room"] #workspaceFrame{margin:0;border:0;border-radius:0;grid-template-columns:275px minmax(0,1fr) 300px}html[data-layout="reading-room"] body[data-workspace-page="study"] #workspaceFrame{grid-template-columns:275px minmax(0,1fr)}html[data-layout="reading-room"] #workspaceNav{height:calc(100dvh - 92px);top:0}html[data-layout="reading-room"] .study-shell{height:calc(100dvh - 92px);grid-template-columns:minmax(350px,1.05fr) minmax(350px,1fr)}html[data-layout="reading-room"] .study-resources{padding:0!important;background:var(--surface)}html[data-layout="reading-room"] .lesson-copy{padding:30px 34px}.lesson-copy h2{font-family:Georgia,serif;font-size:29px;line-height:1.25;margin:10px 0 24px}html[data-layout="reading-room"] .lesson-copy .prose{max-height:none;overflow:visible;font-size:16px;line-height:1.9}html[data-layout="reading-room"] .chat-topbar h2{font-family:'Segoe UI',Arial,sans-serif;font-size:17px!important}html[data-layout="reading-room"] .chat-topbar{min-height:72px;padding:20px}html[data-layout="reading-room"] .chat-panel .message.assistant .prose{font-family:'Segoe UI',Arial,sans-serif;font-size:14px}html[data-layout="reading-room"] .study-task-card{display:none}
+@media(max-width:1200px){html[data-layout] #workspaceFrame,html[data-layout] body[data-workspace-page="study"] #workspaceFrame{grid-template-columns:210px minmax(0,1fr)}#workspaceContext{display:none}html[data-layout] .study-shell{grid-template-columns:minmax(0,1fr) 270px}html[data-layout="reading-room"] .study-shell{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}html[data-layout] header nav button{font-size:11px;padding:8px}}@media(max-width:900px){html[data-layout] .study-shell{grid-template-columns:minmax(0,1fr)}.study-resources{display:none!important}html[data-layout] header{height:auto;min-height:92px}}@media(max-width:650px){html[data-layout] #workspaceFrame,html[data-layout] body[data-workspace-page="study"] #workspaceFrame{display:flex;margin:10px;padding:0}html[data-layout] #workspaceNav{height:auto;min-height:0}.workspace-history{max-height:100px}.chat-topbar h2{font-size:18px!important}.chat-panel .message{padding-left:0!important}.chat-panel .message:before{display:none}.chat-panel .message.assistant .prose{padding:15px;font-size:14px}.chat-panel .compose{margin:0 12px 14px!important}.chat-messages{padding:16px!important}}
+.nav-icon{width:19px;height:19px;flex-shrink:0}header nav button,.workspace-links button{display:flex;align-items:center;gap:10px}html[data-layout] .brand img,html[data-layout] .workspace-brand img{filter:none!important}@media(max-width:650px){.nav-icon{display:none}}
+.calm-card{position:relative;overflow:hidden;min-height:200px;padding:24px;border-radius:22px;background:linear-gradient(145deg,#dfdbff,#f8effc);color:#25214a;order:4;flex-shrink:0}.calm-card p{position:relative;z-index:2;font-size:22px;font-weight:400;line-height:1.4;margin:0 0 14px}.calm-card>span{color:#a698ef;font-size:25px}.calm-hills{position:absolute;bottom:0;left:0;right:0;height:100px;background:#c2b9ee;clip-path:polygon(0 36%,15% 65%,29% 35%,43% 60%,62% 12%,77% 43%,100% 5%,100% 100%,0 100%)}.calm-hills:after{content:'';position:absolute;inset:35px 0 0;background:#a79bda;clip-path:polygon(0 60%,25% 0,50% 70%,75% 20%,100% 75%,100% 100%,0 100%)}
+/* Schoolwork and learning surfaces inherit the active layout in both modes. */
+html[data-layout] .document-group,html[data-layout] .reader-text{background:var(--surface);border-color:var(--line)}
+html[data-layout] .work-section.review-questions{background:var(--surface);border-color:var(--line);border-left-color:var(--purple)}
+html[data-layout] .review-questions .section-count,html[data-layout] .file-symbol,html[data-layout] .count-pill,html[data-layout] .quiz-mark,html[data-layout] .quiz-question legend>span{background:var(--tint);color:var(--purple)}
+html[data-layout] .doc-icon,html[data-layout] .tag{background:var(--tint);color:var(--purple)}
+html[data-layout] .doc-progress{background:var(--line)}html[data-layout] .doc-progress span{background:var(--purple)}
+/* Soft light palettes: reduce glare while retaining readable text contrast. */
+
+
+
+html[data-theme="light"][data-layout] .chat-panel,html[data-theme="light"][data-layout] .study-shell,html[data-theme="light"][data-layout] .study-reader,html[data-theme="light"][data-layout] .lesson-sources{background:var(--surface)}
+html[data-theme="light"][data-layout] input::placeholder,html[data-theme="light"][data-layout] textarea::placeholder{color:var(--muted);opacity:1}
+html[data-theme="light"][data-layout] .chat-panel .message.assistant .prose{background:var(--surface)}
+html[data-theme="light"][data-layout] .primary{color:#faf8f3}
+html[data-theme="light"][data-layout] .calm-card{background:linear-gradient(145deg,#ddd6ed,#eae1ed)}
+:root .pdf-reader-dialog{width:96vw;max-width:1800px;height:95dvh;max-height:96dvh;overflow:hidden;box-sizing:border-box}
+.pdf-reader-dialog[open]{display:flex;flex-direction:column;gap:8px}
+.pdf-reader-dialog .reader-header{flex-shrink:0}
+.pdf-reader-dialog .reader-header h2{font-size:17px;margin:3px 0;max-height:48px;overflow:auto}
+.pdf-reader-dialog .reader-toolbar{margin:0;flex-shrink:0}
+.pdf-reader-dialog #originalPreview{flex:1;min-height:0;overflow:hidden}
+.pdf-reader-dialog #originalPreview iframe{display:block;width:100%;height:100%;border:0;border-radius:8px}
+.pdf-reader-dialog #textPreview{flex:1;min-height:0;max-height:none;overflow:auto}
+.pdf-reader-dialog [hidden]{display:none!important}
+.pdf-reader-dialog .reader-caption{margin:0;font-size:11px;flex-shrink:0}
+.pdf-choice{width:min(480px,90vw);padding:24px;border:1px solid var(--line);border-radius:16px;background:var(--surface);color:var(--ink)}
+.pdf-choice::backdrop{background:#0008}
+.pdf-choice p{overflow-wrap:anywhere}
+.prose.markdown{white-space:normal;overflow-wrap:anywhere;line-height:1.7}
+.markdown p{margin:.65em 0}.markdown strong{font-weight:750}.markdown h1,.markdown h2,.markdown h3{margin:1em 0 .45em;line-height:1.3}
+.markdown ul,.markdown ol{padding-left:1.5em}.markdown li{margin:.3em 0}.markdown pre{white-space:pre-wrap;background:var(--tint);padding:14px;border-radius:8px}.markdown code{font-family:monospace}
+.markdown table{display:block;max-width:100%;overflow:auto;border-collapse:collapse}.markdown th,.markdown td{border:1px solid var(--line);padding:8px 12px}.markdown blockquote{border-left:3px solid var(--purple);margin:12px 0;padding-left:16px}.markdown a{color:var(--purple);text-decoration:underline;cursor:pointer}
+.smooth-progress{height:7px;background:var(--line);border-radius:9px;overflow:hidden;margin:12px 0}
+.smooth-progress>div{height:100%;width:100%;background:var(--purple);transform-origin:left;will-change:transform}
+.smooth-progress.indeterminate>div{width:35%;animation:aster-progress 1.6s ease-in-out infinite}
+@keyframes aster-progress{0%{transform:translateX(-110%)}100%{transform:translateX(390%)}}
+@media(prefers-reduced-motion:reduce){.smooth-progress.indeterminate>div{animation:none;transform:none!important}}
+
+/* Consistent green accents, including decorative elements. */
+html[data-layout] .calm-card{background:linear-gradient(145deg,var(--tint),var(--surface));color:var(--ink)}
+html[data-layout] .calm-card>span{color:var(--purple)}
+html[data-layout] .calm-hills{background:var(--accent-soft)}
+html[data-layout] .calm-hills:after{background:var(--purple);opacity:.45}
+.layout-settings .layout-choice{display:block;min-height:0}
+.layout-settings .layout-choice>div{padding:22px}
+.layout-settings .layout-choice h3{margin:8px 0 12px}
+
+/* The Reading Room's original-page viewer stays beside the conversation. */
+.reading-view-switch{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.reading-view-switch button{font-size:12px;padding:8px 12px}
+html[data-layout="reading-room"] #studyReadingBody{min-height:0;overflow:hidden}
+.inline-document-pages{flex:1;min-height:0;overflow:hidden;position:relative}
+.inline-document-pages iframe{display:block;width:100%;height:100%;border:0}
+.document-loading{padding:20px;font-size:13px;line-height:1.6}
+@media(max-width:1050px){html[data-layout="reading-room"] .study-shell{display:flex;flex-direction:column;height:auto}html[data-layout="reading-room"] .study-shell>.study-resources{display:flex!important;min-height:500px;height:65dvh;max-height:none}html[data-layout="reading-room"] .study-shell>.chat-panel{min-height:450px;height:65dvh}}
+
+.reader-controls #readerSearch{width:100%;font-size:12px;padding:8px;box-sizing:border-box}.reader-controls{flex-shrink:0}.reader-attachments{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:6px 0 12px}.reader-attachments button{font-size:12px;padding:7px 10px}.reader-controls .reader-attachment-picker{margin-top:9px}
+html[data-layout] .primary:hover{background:var(--purple);color:var(--surface);border-color:var(--purple)}
+
+html[data-layout] .chat-welcome img{filter:none!important}html[data-layout] .chat-panel .message.assistant:before{content:'';background:transparent url('/static/brand-star.svg') center/contain no-repeat;border-radius:8px}
+
+/* Persistent collapse controls across the workspace. */
+.panel-toggle{font-size:11px!important;padding:6px 9px!important;align-self:flex-end;flex-shrink:0;margin:6px;line-height:1.4;max-width:100%;white-space:normal}
+.reader-controls>.panel-toggle{float:right;margin:0 0 6px 8px}
+.reader-controls.panel-folded>:not(.panel-toggle):not(.row){display:none!important}
+.reader-controls.panel-folded{padding:10px 14px}
+[data-panel-kind="sidebar"].panel-folded>:not(.panel-toggle),[data-panel-kind="pane"].panel-folded>:not(.panel-toggle){display:none!important}
+[data-panel-kind="card"].panel-folded>:not(.panel-toggle):not(h2):not(h3):not(.eyebrow){display:none!important}
+[data-panel-kind="sidebar"].panel-folded,[data-panel-kind="pane"].panel-folded{padding:0!important;min-width:0!important;overflow:hidden!important;gap:0!important}
+[data-panel-kind="pane"]>.panel-toggle{margin:6px 12px}
+html[data-layout] #workspaceFrame.nav-folded{grid-template-columns:88px minmax(0,1fr) 300px}
+html[data-layout] body[data-workspace-page="study"] #workspaceFrame.nav-folded{grid-template-columns:88px minmax(0,1fr)}
+html[data-layout] #workspaceFrame.context-folded{grid-template-columns:275px minmax(0,1fr) 88px}
+html[data-layout] #workspaceFrame.nav-folded.context-folded{grid-template-columns:88px minmax(0,1fr) 88px}
+html[data-layout] .study-shell.chat-folded{grid-template-columns:88px minmax(0,1fr)}
+html[data-layout="reading-room"] .study-shell.chat-folded{grid-template-columns:minmax(0,1fr) 88px}
+html[data-layout] .study-shell.lesson-folded{grid-template-columns:minmax(0,1fr) 88px}
+html[data-layout="reading-room"] .study-shell.lesson-folded{grid-template-columns:88px minmax(0,1fr)}
+html[data-layout] .study-shell.chat-folded.lesson-folded{grid-template-columns:1fr 1fr}
+@media(max-width:1200px){html[data-layout] #workspaceFrame.nav-folded{grid-template-columns:88px minmax(0,1fr)}}
+
+html[data-layout] body[data-workspace-page="study"] #workspaceFrame.context-folded{grid-template-columns:275px minmax(0,1fr)}
+html[data-layout] body[data-workspace-page="study"] #workspaceFrame.nav-folded.context-folded{grid-template-columns:88px minmax(0,1fr)}

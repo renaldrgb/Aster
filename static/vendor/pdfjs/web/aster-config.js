@@ -1,0 +1,1 @@
+parent.document.addEventListener('webviewerloaded', function configure(e) { if(e.detail.source!==window)return; parent.document.removeEventListener('webviewerloaded',configure); const options=window.PDFViewerApplicationOptions; options.set('disablePreferences',true); options.set('enableScripting',false); options.set('defaultUrl',''); options.set('isEvalSupported',false); });

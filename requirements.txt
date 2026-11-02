@@ -1,0 +1,19 @@
+fastapi
+uvicorn
+httpx
+requests
+pywebview
+pywin32; sys_platform == "win32"
+psutil
+google-auth-oauthlib
+pypdf
+beautifulsoup4
+openpyxl
+ddgs
+pyinstaller
+pytest
+pillow
+pypdfium2==5.14.0
+
+keyring
+pyobjc; sys_platform == "darwin"
