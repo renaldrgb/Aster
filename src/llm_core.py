@@ -16,7 +16,7 @@ async def llm_call_async(url=None,model=None,messages=None,temperature=.3,max_to
             if result.get('error'):raise ValueError('Cloud AI returned an error. Check your model and account credit.')
             return result['choices'][0]['message']['content']
     payload={'model':model,'messages':messages,'stream':False,'think':False,
-             'options':{'temperature':temperature,'num_ctx':32768,'num_predict':max_tokens}}
+             'options':{'temperature':temperature,'num_ctx':kwargs.get('context_size',32768),'num_predict':max_tokens}}
     if format is not None:payload['format']=format
     async with httpx.AsyncClient(timeout=max(timeout,180)) as client:
         response=await client.post('http://127.0.0.1:11434/api/chat',json=payload)

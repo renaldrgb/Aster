@@ -7,13 +7,14 @@ def test_layout_setting_default_persistence_and_validation(tmp_path,monkeypatch)
     monkeypatch.setattr(store,'DATA',tmp_path);store.init();server.quizzes.init()
     with TestClient(server.app) as c:
         h={'X-Aster-Token':server.TOKEN}
-        assert c.get('/api/state',headers=h).json()['layout']=='study-desk'
-        for name in ['floating','reading-room','study-desk']:
-            assert c.post('/api/settings',headers=h,json={'layout':name}).status_code==200
-            store.init()
-            assert c.get('/api/state',headers=h).json()['layout']==name
-        assert c.post('/api/settings',headers=h,json={'layout':'unknown'}).status_code==422
-        assert c.post('/api/settings',json={'layout':'floating'}).status_code==403
+        assert c.get('/api/state',headers=h).json()['layout']=='reading-room'
+        for name in ['floating','study-desk']:
+            store.set_setting('layout',name)
+            assert c.get('/api/state',headers=h).json()['layout']=='reading-room'
+            assert c.post('/api/settings',headers=h,json={'layout':name}).status_code==422
+        assert c.post('/api/settings',headers=h,json={'layout':'reading-room'}).status_code==200
+        assert c.post('/api/settings',json={'layout':'reading-room'}).status_code==403
+
 
 def test_selected_reader_material_is_used_for_answer(tmp_path,monkeypatch):
     monkeypatch.setattr(store,'DATA',tmp_path);store.init();server.quizzes.init()

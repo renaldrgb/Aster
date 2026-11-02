@@ -1,5 +1,5 @@
 const originalDraw=draw;
-draw=function(){originalDraw();if(page==='settings'){drawLayoutSettings();drawAISettings()}applyWorkspaceLayout();installPanelControls()};
+draw=function(){originalDraw();if(page==='settings'){drawAISettings()}applyWorkspaceLayout();installPanelControls()};
 function duration(seconds){seconds=Math.max(0,Math.round(seconds));return seconds<60?seconds+'s':Math.floor(seconds/60)+'m '+seconds%60+'s'}
 let progressFrame=0, progressJob=null, progressReceived=0, visualProgress=0, progressLastFrame=0;
 showJobs=function(jobs){

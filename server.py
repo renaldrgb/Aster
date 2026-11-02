@@ -1,4 +1,4 @@
-import asyncio,json,os,secrets,sys,uuid,webbrowser,time
+import asyncio,json,os,secrets,sys,uuid,webbrowser,time,mimetypes
 from pathlib import Path
 from fastapi import FastAPI,Request,HTTPException
 from fastapi.responses import HTMLResponse,FileResponse,Response
@@ -17,6 +17,11 @@ library.init()
 quizzes.init()
 app=FastAPI(title='Aster',docs_url=None,redoc_url=None)
 app.add_middleware(TrustedHostMiddleware,allowed_hosts=['127.0.0.1','localhost','testserver'])
+# Module MIME types must not depend on the host Windows registry.
+mimetypes.init()
+mimetypes.add_type('text/javascript','.mjs')
+mimetypes.add_type('text/javascript','.js')
+mimetypes.add_type('application/wasm','.wasm')
 app.mount('/static',StaticFiles(directory=ROOT/'static'),name='static')
 jobs={};researchers={};active_tasks=set()
 
@@ -38,7 +43,7 @@ def state():
     reports=store.rows('reports')
     return {'tasks':store.rows('tasks'),'materials':store.material_catalog(),
         'library':library.list_files(),'quizzes':quizzes.list_quizzes(),
-        'layout':store.setting('layout','study-desk'),'chats':store.conversations(),'courses':store.setting('courses',[]),'theme':store.setting('theme','light'),
+        'layout':'reading-room','chats':store.conversations(),'courses':store.setting('courses',[]),'theme':store.setting('theme','light'),
         'messages':list(reversed(store.rows('messages')[:80])),
         'reports':[{k:v for k,v in r.items() if k!='body'} for r in reports],
         'activity':store.rows('activity')[:20],'google':google_setup.state(),
@@ -85,6 +90,11 @@ def stop():
             if id in researchers:researchers[id].cancel()
             j['_task'].cancel()
     return {'ok':True}
+
+@app.post('/api/recheck-saved')
+async def recheck_saved():
+    async def worker(progress,id):return await school.recheck_saved(progress)
+    return start('Recheck saved documents',worker)
 
 @app.post('/api/sync')
 async def sync():
@@ -290,13 +300,12 @@ def task(id:str,body:Completion):
     return {'ok':True}
 
 class Settings(BaseModel):
-    layout:Literal['','study-desk','floating','reading-room']=''
+    layout:Literal['','reading-room']=''
     theme:str=Field(default='',pattern='^(|light|dark)$')
     email:str='';client_json:str=Field(default='',max_length=20000)
     client_id:str='';client_secret:str='';model:str=Field(default='',max_length=200)
 @app.post('/api/settings')
 def settings(body:Settings):
-    if body.layout:store.set_setting('layout',body.layout)
     if body.theme:store.set_setting('theme',body.theme)
     if body.model:store.set_setting('model',body.model)
     if body.client_json or body.client_id or body.client_secret:

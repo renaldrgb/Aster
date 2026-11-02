@@ -9,8 +9,17 @@ async function mountDocumentPages(container,m){
     frame.src='/static/vendor/pdfjs/web/viewer.html?file=#zoom=page-width&pagemode=none';
     frame.addEventListener('load',async()=>{try{
       if(!container.isConnected)return;
-      const viewer=frame.contentWindow.PDFViewerApplication;
-      await viewer.initializedPromise;
+      const viewer=await new Promise((resolve,reject)=>{
+        const started=Date.now();
+        const check=()=>{
+          if(!container.isConnected){reject(Error('Document view closed.'));return}
+          const app=frame.contentWindow?.PDFViewerApplication;
+          if(app){resolve(app);return}
+          if(Date.now()-started>20000){reject(Error('The PDF viewer could not start. Please update Aster and your system web viewer, then reopen the document.'));return}
+          setTimeout(check,50);
+        };check();
+      });
+      await Promise.race([viewer.initializedPromise,new Promise((_,reject)=>setTimeout(()=>reject(Error('PDF viewer initialization timed out. Reopen the document to retry.')),30000))]);
       await viewer.open({data:new Uint8Array(data),isEvalSupported:false,disableFontFace:true});
       viewer.pdfSidebar?.close();viewer.pdfViewer.currentScaleValue='page-width';
     }catch(error){if(container.isConnected)container.textContent='Unable to render document: '+error.message}},{once:true});

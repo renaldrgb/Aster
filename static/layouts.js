@@ -1,16 +1,7 @@
-const studyLayouts=[
- {id:'study-desk',name:'Study Desk',description:'Warm paper, forest green, and a lesson beside your conversation. The default Aster workspace.'},
- {id:'floating',name:'Floating Workspace',description:'Floating panels keep your conversations, materials and tasks within reach.'},
- {id:'reading-room',name:'Reading Room',description:'A spacious lesson reader next to your chat, with book-like typography.'}
-];
 let readingView=localStorage.getItem('aster-reading-view')||'original';
 let readerClass=localStorage.getItem('aster-reader-class')||'',readerQuery='',readerAttachment='';
 let studyMaterial=localStorage.getItem('aster-study-material')||'';
-function applyLayout(){document.documentElement.dataset.layout=studyLayouts.some(l=>l.id===state.layout)?state.layout:'study-desk'}
-function drawLayoutSettings(){
- const section=document.createElement('section');section.className='card layout-settings';section.innerHTML=`<div class="eyebrow">APPEARANCE</div><h2>Your workspace, your way.</h2><p class="muted">Switch layouts at any time. Your chats, materials and tasks stay in place. Each layout supports light and dark mode.</p><div class="layout-options">${studyLayouts.map(l=>`<article class="layout-choice ${document.documentElement.dataset.layout===l.id?'chosen':''}"><div><span class="eyebrow">${l.id==='study-desk'?'Default':'Layout'}</span><h3>${l.name}</h3><p>${l.description}</p><button data-layout-choice="${l.id}" aria-pressed="${document.documentElement.dataset.layout===l.id}" class="${document.documentElement.dataset.layout===l.id?'primary':''}">${document.documentElement.dataset.layout===l.id?'Selected':'Use '+l.name}</button></div></article>`).join('')}</div></section>`;
- const heading=view.querySelector('.heading');if(heading)heading.after(section);else view.prepend(section);
-}
+function applyLayout(){state.layout='reading-room';document.documentElement.dataset.layout='reading-room'}
 function studyMaterials(){return visibleMaterials().filter(m=>(m.body?.trim()||m.attachments?.length)&&(!readerClass||m.course===readerClass)&&[m.title,m.course,m.search_text||m.body||''].join(' ').toLocaleLowerCase().includes(readerQuery.toLocaleLowerCase()))}
 function currentStudyMaterial(){const materials=studyMaterials();return materials.find(m=>m.id===studyMaterial||m.attachments?.some(d=>d.id===studyMaterial))||materials[0]}
 function updateReaderSelection(){
@@ -54,14 +45,12 @@ function drawStudyReader(){
  }
  const panel=body.closest('.study-resources');panel?.querySelector('.lesson-sources')?.remove();
  if(!reading&&panel){const sources=document.createElement('section');sources.className='lesson-sources';sources.innerHTML=`<h3>Sources</h3>${studyMaterials().slice(0,3).map((x,i)=>`<button data-preview-material="${esc(x.id)}"><b>${i+1}</b><div><strong>${esc(x.title)}</strong><small>${esc(x.course)} · Saved material</small></div></button>`).join('')||'<p class="muted">Your saved documents appear here.</p>'}`;panel.append(sources)}
- panel?.querySelector('.calm-card')?.remove();if(state.layout==='floating'&&panel){const card=document.createElement('div');card.className='calm-card';card.innerHTML='<p>Calm minds<br>build bright futures.</p><span>✦</span><div class="calm-hills"></div>';panel.append(card)}
  if(typeof installPanelControls==='function')installPanelControls();
 }
 
 document.addEventListener('change',e=>{if(e.target.id==='readerClass'){readerClass=e.target.value;localStorage.setItem('aster-reader-class',readerClass);updateReaderSelection()}if(e.target.id==='readerAttachment'){readerAttachment=e.target.value;drawStudyReader()}if(e.target.id==='studyMaterial'&&e.target.value){readerAttachment='';studyMaterial=e.target.value;localStorage.setItem('aster-study-material',studyMaterial);drawStudyReader()}});
 document.addEventListener('click',async e=>{
  const mode=e.target.closest('[data-reading-view]');if(mode){readingView=mode.dataset.readingView;localStorage.setItem('aster-reading-view',readingView);drawStudyReader();return}
- const b=e.target.closest('[data-layout-choice]');if(b){b.disabled=true;try{await api('settings','POST',{layout:b.dataset.layoutChoice});await refresh();notice('Layout saved. Open Study assistant to try it.')}catch(err){notice(err.message)}finally{b.disabled=false}}
  if(e.target.closest('#askLesson')){const m=currentStudyMaterial(),input=document.querySelector('#chat textarea');if(m&&input){input.value='Explain the key ideas in "'+m.title+'" ('+m.course+').';chatDrafts[activeChat||'new']=input.value;input.focus()}}
 });
 // Keep the selected design's navigation and panel structure across every page.
