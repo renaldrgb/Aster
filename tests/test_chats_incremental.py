@@ -17,21 +17,28 @@ def test_legacy_messages_migrate_and_chats_are_isolated(tmp_path,monkeypatch):
 
 def test_incremental_review_retries_failure_and_checks_changes(tmp_path,monkeypatch):
     monkeypatch.setattr(store,'DATA',tmp_path);store.init()
-    version=['1'];calls=[];fail=[False]
+    version=['1'];calls=[];downloads=[];fail=[False]
     async def pages(fn,key,*args):
         if key=='courses':return [{'id':'c','name':'Networks'}]
         if key=='courseWork':return []
         return [{'id':'p','title':'Lesson','materials':[{'driveFile':{'id':'d'}}]}]
     monkeypatch.setattr(school,'pages',pages)
     monkeypatch.setattr(school.google,'document_metadata',lambda fid:{'version':version[0]})
-    monkeypatch.setattr(school.google,'document',lambda fid:{'name':'Lesson','text':'Some lesson','url':'https://example.org'})
+    def document(fid):
+        downloads.append(fid)
+        return {'name':'Lesson','text':'Some lesson','url':'https://example.org'}
+    monkeypatch.setattr(school.google,'document',document)
     async def analyze(*args):
         calls.append(version[0])
         if fail[0]:raise ValueError('Temporary error')
         return 0
     monkeypatch.setattr(school,'analyze_document',analyze)
     asyncio.run(school.sync(lambda s:None));assert calls==['1']
-    asyncio.run(school.sync(lambda s:None));assert calls==['1']
+    summary=asyncio.run(school.sync(lambda s:None));assert calls==['1']
+    assert downloads==['d'] and 'skipped 1 unchanged documents' in summary
+    store.init()  # Checkpoints survive restarting the workspace.
+    asyncio.run(school.sync(lambda s:None))
+    assert calls==['1'] and downloads==['d']
     last=store.setting('last_sync');version[0]='2';fail[0]=True
     asyncio.run(school.sync(lambda s:None));assert store.setting('last_sync')==last
     fail[0]=False;asyncio.run(school.sync(lambda s:None));assert calls==['1','2','2']
