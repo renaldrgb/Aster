@@ -184,7 +184,7 @@ def test_document_exercises_stay_practice_and_preserve_completed(monkeypatch):
             final = (await session.get('/api/state')).json()
             assert len(final['tasks']) == 2 and len(final['library']) == 1
             assert next(task for task in final['tasks'] if task['id'] == completed['id'])['done'] == 1
-            assert calls == [text, text]
+            assert calls == [text]  # Successful analysis is reused.
     asyncio.run(run())
 
 

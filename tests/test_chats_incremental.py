@@ -42,6 +42,7 @@ def test_incremental_review_retries_failure_and_checks_changes(tmp_path,monkeypa
     last=store.setting('last_sync');version[0]='2';fail[0]=True
     asyncio.run(school.sync(lambda s:None));assert store.setting('last_sync')==last
     fail[0]=False;asyncio.run(school.sync(lambda s:None));assert calls==['1','2','2']
+    assert downloads==['d','d']  # Failed analysis reuses the version already saved.
     asyncio.run(school.sync(lambda s:None));assert calls==['1','2','2']
 
 def test_chat_jobs_keep_their_history(tmp_path,monkeypatch):

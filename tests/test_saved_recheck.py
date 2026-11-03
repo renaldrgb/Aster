@@ -32,3 +32,21 @@ def test_chunked_ai_reads_end_of_document(monkeypatch):
  assert len(seen)>1 and all(len(call['messages'][-1]['content'])<=4500 for call in seen)
  assert 'FINAL PAGE' in seen[-1]['messages'][-1]['content']
  assert all(call['context_size']==8192 for call in seen)
+
+def test_failed_chunk_resumes_without_repeating_completed_chunks(monkeypatch):
+ calls=[];fail=[True]
+ text='First lesson. '*400+'Second lesson. '*400
+ async def model(**kwargs):
+  chunk=kwargs['messages'][-1]['content'];calls.append(chunk)
+  if len(calls)==2 and fail[0]:raise ValueError('Timed out')
+  return '{"tasks":[]}'
+ monkeypatch.setattr(school,'llm_call_async',model)
+ doc={'name':'Long lesson','text':text,'url':''}
+ with pytest.raises(ValueError):asyncio.run(school.analyze_document(doc,'Class','resume',None,lambda *a:None))
+ fail[0]=False
+ asyncio.run(school.analyze_document(doc,'Class','resume',None,lambda *a:None))
+ assert calls.count(calls[0])==1
+ assert calls.count(calls[1])==2
+ before=len(calls)
+ asyncio.run(school.analyze_document(doc,'Class','resume',None,lambda *a:None,force=True))
+ assert len(calls)>before

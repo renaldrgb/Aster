@@ -1,6 +1,6 @@
 [Setup]
 AppName=Aster
-AppVersion=1.0.2
+AppVersion=1.0.3
 DefaultDirName={localappdata}\Programs\Aster
 DefaultGroupName=Aster
 PrivilegesRequired=lowest

@@ -10,6 +10,7 @@ def test_ollama_format_is_forwarded_without_changing_plain_text_calls(monkeypatc
     requests = []
 
     class Response:
+        status_code=200
         def raise_for_status(self):
             pass
 
@@ -42,3 +43,16 @@ def test_ollama_format_is_forwarded_without_changing_plain_text_calls(monkeypatc
         assert 'format' not in payload
     else:
         assert payload['format'] == format_value
+
+@pytest.mark.parametrize('failure,expected', [('timeout','timed out after 600'),('memory','available memory')])
+def test_local_ai_failure_explains_retry(monkeypatch,failure,expected):
+    class Client:
+        def __init__(self,**kwargs):pass
+        async def __aenter__(self):return self
+        async def __aexit__(self,*args):pass
+        async def post(self,*args,**kwargs):
+            if failure=='timeout':raise llm_core.httpx.ReadTimeout('slow engine')
+            return llm_core.httpx.Response(500,json={'error':'model requires more system memory'})
+    monkeypatch.setattr(llm_core.httpx,'AsyncClient',Client)
+    with pytest.raises(ValueError,match=expected):
+        asyncio.run(llm_core.llm_call_async(model='local-test',messages=[],timeout=600))

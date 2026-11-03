@@ -19,8 +19,18 @@ async def llm_call_async(url=None,model=None,messages=None,temperature=.3,max_to
              'options':{'temperature':temperature,'num_ctx':kwargs.get('context_size',32768),'num_predict':max_tokens}}
     if format is not None:payload['format']=format
     async with httpx.AsyncClient(timeout=max(timeout,180)) as client:
-        response=await client.post('http://127.0.0.1:11434/api/chat',json=payload)
-        response.raise_for_status()
+        try:
+            response=await client.post('http://127.0.0.1:11434/api/chat',json=payload)
+        except httpx.TimeoutException as e:
+            raise ValueError('Local AI timed out after '+str(max(timeout,180))+' seconds. Use a smaller model or close other apps, then retry. Saved analysis progress is kept.') from e
+        except httpx.ConnectError as e:
+            raise ValueError('Cannot reach the local AI engine. Check AI settings and try again.') from e
+        if response.status_code>=400:
+            try:detail=str(response.json().get('error',''))
+            except (ValueError,AttributeError):detail=''
+            if any(word in detail.lower() for word in ('memory','allocation','out of')):
+                raise ValueError('The local model ran out of available memory. Select a smaller model in Settings or close other apps, then retry.')
+            raise ValueError('Local AI failed (HTTP '+str(response.status_code)+'). Check that the selected model is downloaded and the engine is running.')
         return response.json()['message']['content']
 
 def json_value(text):
